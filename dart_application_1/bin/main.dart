@@ -1,25 +1,49 @@
 void main() {
-  double tinggi = 170;
-  double berat = 65;
+  List<Map<String, dynamic>> riwayat = [];
+
+  hitungBMI(170, 65, riwayat);
+  hitungBMI(165, 75, riwayat);
+  hitungBMI(180, 85, riwayat);
+
+  tampilkanRiwayat(riwayat);
+}
+
+void hitungBMI(double tinggi, double berat, List<Map<String, dynamic>> riwayat) {
 
   if (tinggi <= 0 || berat <= 0) {
     print("Input tidak valid");
+    return;
+  }
+
+  double tinggiMeter = tinggi / 100;
+  double bmi = berat / (tinggiMeter * tinggiMeter);
+
+  String kategori;
+
+  if (bmi < 18.5) {
+    kategori = "Kurus";
+  } else if (bmi < 25) {
+    kategori = "Normal";
+  } else if (bmi < 30) {
+    kategori = "Gemuk";
   } else {
+    kategori = "Obesitas";
+  }
 
-    double tinggiMeter = tinggi / 100;
-    double bmi = berat / (tinggiMeter * tinggiMeter);
+  riwayat.add({
+    "tinggi": tinggi,
+    "berat": berat,
+    "bmi": bmi,
+    "kategori": kategori
+  });
+}
 
-    print("BMI kamu adalah: $bmi");
+void tampilkanRiwayat(List<Map<String, dynamic>> riwayat) {
 
-    if (bmi < 18.5) {
-      print("Kategori: Kurus");
-    } else if (bmi < 25) {
-      print("Kategori: Normal");
-    } else if (bmi < 30) {
-      print("Kategori: Gemuk");
-    } else {
-      print("Kategori: Obesitas");
-    }
-    
+  print("Riwayat Perhitungan BMI:");
+
+  for (int i = 0; i < riwayat.length; i++) {
+    print(
+        "Data ${i + 1}: Tinggi ${riwayat[i]['tinggi']} cm, Berat ${riwayat[i]['berat']} kg, BMI ${riwayat[i]['bmi'].toStringAsFixed(2)}, Kategori ${riwayat[i]['kategori']}");
   }
 }
